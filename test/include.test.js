@@ -182,7 +182,7 @@ describe('include', function () {
     });
   });
 
-  it('should support limit', function(done) {
+  it('should support limit for each parent instance individually', function(done) {
     Passport.find({
       include: {
         owner: {
@@ -193,11 +193,12 @@ describe('include', function () {
           }
         }
       },
-      limit: 1
+      limit: 2 
     }, function(err, passports) {
       if (err) return done(err);
-      passports.length.should.equal(1);
+      passports.length.should.equal(2);
       passports[0].toJSON().owner.posts.length.should.equal(2);
+      passports[1].toJSON().owner.posts.length.should.equal(1);
       done();
     });
   });
